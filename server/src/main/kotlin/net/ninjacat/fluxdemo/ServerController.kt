@@ -15,7 +15,7 @@ class ServerController {
     @GetMapping(value = "/data", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun getData(): Flux<DataObject> {
         return Flux.fromStream(Stream.generate { DataObject.make() }
-                .limit(10)
+                .limit(3000)
                 .peek { msg -> logger.info(msg.toString()) })
     }
 

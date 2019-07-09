@@ -1,15 +1,14 @@
 package net.ninjacat.fluxdemo
 
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
+import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.context.ConfigurableApplicationContext
-import org.springframework.beans.factory.annotation.Autowired
 
 
 @SpringBootApplication
@@ -33,7 +32,10 @@ class FluxClientDemo {
                     .retrieve()
                     .bodyToFlux(DataObject::class.java)
                     .subscribe(
-                            { msg -> logger.info("Message: {}", msg) },
+                            { msg ->
+                                logger.info("Message: {}", msg)
+                                Thread.sleep(25)
+                            },
                             { err -> logger.error("Error", err) },
                             {
                                 logger.info("Completed")
